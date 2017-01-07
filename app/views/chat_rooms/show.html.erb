@@ -1,0 +1,34 @@
+<h1><%= @chat_room.title %></h1>
+<div class="card-block">
+  <div class="post-body">
+    <%= @chat_room.post.to_s.html_safe %>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <%= gravatar_for @chat_room.user %>
+    </div>
+    <div class="col-md-10">
+      <p class="card-text">
+        <span class="text-muted"><%= @chat_room.user.name %> at <%= @chat_room.timestamp %></span><br>
+      </p>
+    </div>
+  </div>
+</div>
+<div id="messages" data-chat-room-id="<%= @chat_room.id %>">
+  <%= render @chat_room.messages %>
+</div>
+<% if current_user %>
+<%= form_for @message, url: '#' do |f| %>
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: 'form-control' %>
+    <small class="text-muted">From 2 to 1000 characters</small>
+  </div>
+
+  <%= f.submit "Post", class: 'btn btn-primary btn-lg' %>
+<% end %>
+<% else %>
+  <p>
+    Please, login to leave comments.
+  </p>
+<% end %>

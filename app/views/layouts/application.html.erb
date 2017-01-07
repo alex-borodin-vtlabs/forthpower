@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Activeblog</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= render 'layouts/navbar' %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md">
+          <% unless devise_controller? %>
+            <div class="side-container">
+              <% if current_user %>
+
+                <div class="card">
+                  <div class="card-block">
+                    <h4 class="card-title"><%= current_user.name %> <%= link_to(fa_icon("sign-out"), destroy_user_session_path, :method => :delete) %></h4>
+                  </div>
+                  <%= gravatar_for current_user, {class: 'rounded-circle mx-auto d-block'} %>
+                  <div class="card-block">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+                </div>
+              <% else %>
+                <%= render 'devise/shared/login'%>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-7">
+          <% flash.each do |key, value| %>
+            <div class="<%= flash_class(key) %> fade in">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              <%= value %>
+            </div>
+          <% end %>
+          <div class="yeld-container">
+            <%= yield %>
+          </div>
+        </div>
+        <div class="col-md"></div>
+      </div>
+    </div>
+  </body>
+</html>
