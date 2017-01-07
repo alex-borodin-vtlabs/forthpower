@@ -5,3 +5,6 @@ jQuery(document).on 'turbolinks:load', ->
   $('#post').froalaEditor
     heightMin: 300
     theme: 'gray'
+    imageUploadURL: '/attachments.json',
+    imageUploadMethod: 'POST',
+    imageUploadParams: {'authenticity_token': $( 'meta[name="csrf-token"]' ).attr( 'content' )}

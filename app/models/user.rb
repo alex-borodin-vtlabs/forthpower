@@ -5,9 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :vkontakte]
   has_many :chat_rooms, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :attachments, dependent: :destroy
   validates :email, presence: true
   validates :email, uniqueness: true
-  mount_uploaders :pictures, PostPictureUploader
 
   def name
     email.split('@')[0]

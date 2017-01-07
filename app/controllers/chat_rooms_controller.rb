@@ -1,6 +1,5 @@
 class ChatRoomsController < ApplicationController
-  before_action :authenticate_user!
-  skip_before_action :authenticate_user!, :only => [:index, :show]
+  before_action only: [:new, :create] { |c| c.admin_auth 2 }
   def index
     @chat_rooms = ChatRoom.all.order(created_at: :desc)
   end
