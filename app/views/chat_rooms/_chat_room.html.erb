@@ -2,7 +2,8 @@
   <%= preview_image(chat_room) %>
   <div class="card-block">
     <h2 class="card-title"><%= link_to "#{chat_room.title}", chat_room_path(chat_room) %></h2>
-    <h6 class="card-subtitle mb-2 text-muted"><%= chat_room.user.name %> - <%= chat_room.timestamp %></h6>
+    <h6 class="card-subtitle mb-2 text-muted"><%= chat_room.user.name %> - <%= chat_room.timestamp %> </h6>
+    <div class="votes-container" data-voted="<%= hide_vote(chat_room, current_user) %>" data-chat-room-id="<%= chat_room.id %>"><%= render partial: 'shared/votes', locals: {chat_room: chat_room} %></div>
     <div class="card-text"><%= preview_text(chat_room) %></div>
   </div>
 </div>

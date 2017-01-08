@@ -1,7 +1,12 @@
 class ChatRoomsController < ApplicationController
   before_action only: [:new, :create] { |c| c.admin_auth 2 }
   def index
-    @chat_rooms = ChatRoom.all.order(created_at: :desc)
+    @chat_rooms =
+      if params[:search]
+        ChatRoom.search(params[:search]).order('created_at DESC')
+      else
+        ChatRoom.all.order('created_at DESC')
+      end
   end
 
   def new
@@ -26,6 +31,6 @@ class ChatRoomsController < ApplicationController
   private
 
   def chat_room_params
-    params.require(:chat_room).permit(:title, :post)
+    params.require(:chat_room).permit(:title, :post, :search)
   end
 end

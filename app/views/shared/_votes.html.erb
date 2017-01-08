@@ -1,0 +1,6 @@
+<span>Rating:</span>
+<%= content_tag(:a, fa_icon("thumbs-down"), href:"#", data: {vote: 'bad'})%>
+<span>
+  <%= chat_room.get_likes.size - chat_room.get_dislikes.size %>
+</span>
+<%= content_tag(:a, fa_icon("thumbs-up"), href:"#", data: {vote: 'like'})%>

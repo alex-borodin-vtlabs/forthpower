@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :attachments, dependent: :destroy
   validates :email, presence: true
   validates :email, uniqueness: true
+  acts_as_voter
 
   def name
     email.split('@')[0]

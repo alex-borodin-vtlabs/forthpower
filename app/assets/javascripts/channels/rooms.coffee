@@ -1,6 +1,12 @@
 jQuery(document).on 'turbolinks:load', ->
   messages = $('#messages')
   chat_rooms = $('#chat-rooms')
+  votes_container = $('.votes-container')
+  hide_vote = ->
+    $('.votes-container').each ->
+      if $(this).data('voted') is true
+        $(this).find('a').hide()
+  hide_vote()
   if messages.length > 0
     messages_to_bottom = -> messages.parents('.yeld-container').scrollTop(messages.prop("scrollHeight"))
 
@@ -44,3 +50,34 @@ jQuery(document).on 'turbolinks:load', ->
 
       received: (data) ->
         chat_rooms.prepend data['chat_room']
+
+
+  if votes_container.length > 0
+    App.votes = {}
+    votes_container.each ->
+      vote_container = $(this)
+      App.votes[vote_container.data('chat-room-id')] = App.cable.subscriptions.create {
+          channel: "VotesChannel"
+          chat_room_id: vote_container.data('chat-room-id')
+        },
+        connected: ->
+          # Called when the subscription is ready for use on the server
+
+        disconnected: ->
+          # Called when the subscription has been terminated by the server
+
+        received: (data) ->
+          vote_container.data('voted', true)
+          vote_container.html data['vote']
+          hide_vote()
+
+        send_message: (vote, chat_room_id) ->
+          @perform 'send_message', vote: vote, chat_room_id: chat_room_id
+
+
+    votes_container.on 'click', 'a', (e) ->
+      $this = $(this)
+      chat_room_id = $this.parents('.votes-container').data('chat-room-id')
+      App.votes[chat_room_id].send_message $this.data('vote'), chat_room_id
+      e.preventDefault()
+      return false

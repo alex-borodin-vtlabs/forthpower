@@ -36,6 +36,7 @@ gem 'bootstrap', '~> 4.0.0.alpha5'
 gem 'redis', '~> 3.2'
 gem 'wysiwyg-rails'
 gem 'carrierwave', '~> 1.0'
+gem 'acts_as_votable', '~> 0.10.0'
 
 
 # Use Capistrano for deployment

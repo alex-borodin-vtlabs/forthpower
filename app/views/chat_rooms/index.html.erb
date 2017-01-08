@@ -1,7 +1,10 @@
-<h1>Chat rooms</h1>
 <% if current_user && current_user.role > 1 %>
-  <p class="lead"><%= link_to 'New chat room', new_chat_room_path, class: 'btn btn-primary' %></p>
+  <p class="lead"><%= link_to 'New article', new_chat_room_path, class: 'btn btn-primary' %></p>
 <% end %>
 <div id="chat-rooms">
-  <%= render @chat_rooms %>
+  <% if @chat_rooms.present? %>
+    <%= render @chat_rooms %>
+  <% else %>
+    <p>There are no posts containing the term(s) <%= params[:search] %>.</p>
+  <% end %>
 </div>
