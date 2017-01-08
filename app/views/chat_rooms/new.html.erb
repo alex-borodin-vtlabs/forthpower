@@ -1,13 +1,22 @@
 <h1>Add chat room</h1>
-
+<% if @chat_room.errors.any? %>
+   <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <ul>
+         <% @chat_room.errors.full_messages.each do |msg| %>
+         <li><%= msg %></li>
+         <% end %>
+      </ul>
+   </div>
+<% end %>
 <%= form_for @chat_room do |f| %>
-  <div class="form-group">
+  <div class="form-group <%='has-danger' if @chat_room.errors.details[:title].size > 0 %>">
     <%= f.label :title %>
-    <%= f.text_field :title, autofocus: true, class: 'form-control' %>
+    <%= f.text_field :title, autofocus: true, class: "form-control" %>
   </div>
   <div class="form-group">
     <%= f.label :post %>
-    <%= f.text_area :post, class: 'form-control', id: 'post' %>
+    <%= f.text_area :post, class: "form-control", id: 'post' %>
   </div>
   <%= f.submit "Add!", class: 'btn btn-primary' %>
 <% end %>

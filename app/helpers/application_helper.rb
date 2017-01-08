@@ -14,7 +14,7 @@ module ApplicationHelper
     src = if user.avatar_url
       user.avatar_url
     else
-      'https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}?s=#{opts.delete(:size) { 50 }}'
+      "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}?s=#{opts.delete(:size) { 50 }}"
     end
     image_tag src,
               opts
