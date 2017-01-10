@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :set_popular
+
+  def set_popular
+    @populars = ChatRoom.includes(:user).all.order(cached_votes_total: :desc).first(5)
+  end
 
   def admin_auth(role)
     authenticate_user!

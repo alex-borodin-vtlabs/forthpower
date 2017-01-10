@@ -43,7 +43,18 @@
             <%= yield %>
           </div>
         </div>
-        <div class="col-md"></div>
+        <div class="col-md">
+          <div class="side-container">
+            <div class="card">
+              <div class="card-block">
+                <h4 class="card-title">Popular</h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                <%= render partial: 'layouts/popular', collection: @populars %>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
