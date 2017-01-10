@@ -35,4 +35,11 @@ module ApplicationHelper
    def devise_mapping
      @devise_mapping ||= Devise.mappings[:user]
    end
+
+   def nav_link(link_text, link_path)
+     class_name = current_page?(link_path) ? 'active' : ''
+     content_tag(:li, class: "nav-item #{class_name}") do
+       link_to link_text, link_path, class: "nav-link"
+     end
+   end
 end

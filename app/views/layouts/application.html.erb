@@ -21,7 +21,7 @@
                   <div class="card-block">
                     <h4 class="card-title"><%= current_user.name %> <%= link_to(fa_icon("sign-out"), destroy_user_session_path, :method => :delete) %></h4>
                   </div>
-                  <%= gravatar_for current_user, {class: 'rounded-circle mx-auto d-block'} %>
+                  <%= render partial: 'shared/user_avatar_container', locals: {user: current_user} %>
                   <div class="card-block">
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <a href="#" class="card-link">Card link</a>

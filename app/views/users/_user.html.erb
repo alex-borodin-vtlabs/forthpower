@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-md-2">
+        <%= render partial: 'shared/user_avatar_container', locals: {user: user} %>
+      </div>
+      <div class="col-md-10">
+        <p class="card-text">
+          <a href="<%= user_path(user) %>"><%= user.name %></a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

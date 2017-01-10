@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :attachments, dependent: :destroy
   validates :email, presence: true
   validates :email, uniqueness: true
+  after_update_commit { UsersOnlineBroadcastJob.perform_later(self) }
   acts_as_voter
 
   def name
@@ -37,5 +38,9 @@ class User < ApplicationRecord
       user.save!
       user
     end
+  end
+
+  def self.search(search)
+    where("email LIKE ?", "%#{search}%")
   end
 end

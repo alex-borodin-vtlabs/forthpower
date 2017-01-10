@@ -2,11 +2,11 @@
   <div class="card-block">
     <div class="row">
       <div class="col-md-2">
-        <%= gravatar_for message.user %>
+        <%= render partial: 'shared/user_avatar_container', locals: {user: message.user} %>
       </div>
       <div class="col-md-10">
         <p class="card-text">
-          <span class="text-muted"><%= message.user.name %> at <%= message.timestamp %> says</span><br>
+          <span class="text-muted"><a href="<%= user_path(message.user) %>"><%= message.user.name %></a> at <%= message.timestamp %> says</span><br>
           <%= message.body %>
         </p>
       </div>
