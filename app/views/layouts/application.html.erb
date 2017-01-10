@@ -19,13 +19,11 @@
 
                 <div class="card">
                   <div class="card-block">
-                    <h4 class="card-title"><%= current_user.name %> <%= link_to(fa_icon("sign-out"), destroy_user_session_path, :method => :delete) %></h4>
-                  </div>
-                  <%= render partial: 'shared/user_avatar_container', locals: {user: current_user} %>
-                  <div class="card-block">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <h4 class="card-title"><%=link_to current_user.name, user_path(current_user) %> <%= link_to(fa_icon("sign-out"), destroy_user_session_path, :method => :delete) %></h4>
+                    <%= render partial: 'shared/user_avatar_container', locals: {user: current_user} %>
+                    <p class="card-text"><%= preview_user_text(current_user)%></p>
+                    <%=link_to "View", user_path(current_user), class: "card-link" %>
+                    <%=link_to "Edit", edit_user_path(current_user), class: "card-link" %>
                   </div>
                 </div>
               <% else %>

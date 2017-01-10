@@ -1,4 +1,4 @@
-<% if current_user && current_user.role > 1 %>
+<% if current_user && current_user.role > 0 %>
   <p class="lead"><%= link_to 'New article', new_chat_room_path, class: 'btn btn-primary' %></p>
 <% end %>
 <div id="chat-rooms">

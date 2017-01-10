@@ -2,7 +2,8 @@
   <div class="card-block">
     <h2 class="card-title"><%= render partial: 'shared/user_avatar_container', locals: {user: @user} %> <%= @user.name %></h2>
     <div class="card-text">Email: <%= @user.email %></div>
-
+    <div class="card-text"><%= @user.bio.html_safe %></div>
+    <%= link_to "Edit", edit_user_path(@user), class: "btn btn-primary" %>
   </div>
   <h6 class="card-subtitle mb-2 pl-1 text-muted">Posts:</h6>
   <ul class="list-group list-group-flush">

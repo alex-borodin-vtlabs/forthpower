@@ -1,5 +1,5 @@
 class ChatRoomsController < ApplicationController
-  before_action only: [:new, :create] { |c| c.admin_auth 2 }
+  before_action only: [:new, :create] { |c| c.admin_auth 1 }
   def index
     @chat_rooms =
       if params[:search]

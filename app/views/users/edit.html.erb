@@ -1,0 +1,33 @@
+<h1>Edit user</h1>
+<% if @user.errors.any? %>
+   <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <ul>
+         <% @user.errors.full_messages.each do |msg| %>
+         <li><%= msg %></li>
+         <% end %>
+      </ul>
+   </div>
+<% end %>
+<%= form_for @user do |f| %>
+  <div class="form-group <%='has-danger' if @user.errors.details[:avatar_url].size > 0 %>">
+    <%= f.label :avatar_url %>
+    <%= f.email_field :avatar_url, class: "form-control", id: 'avatar_url' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :bio %>
+    <%= f.text_area :bio, class: "form-control", id: 'bio' %>
+  </div>
+  <%if current_user.role >= 3 %>
+  <div class="form-group">
+    <%= f.label :role %>
+    <%= f.select(:role, options_for_select([['User', 0], ['Author', 1], ['Moderator', 2],['Admin', 3]], @user.role), {}, {class: "form-control"}) %>
+  </div>
+  <% end %>
+  <%if @user == current_user %>
+    <div class="form-group">
+      <%= link_to "Change Login Data", edit_user_registration_path, class: "btn btn-primary"%>
+    </div>
+  <%end%>
+  <%= f.submit "Update!", class: 'btn btn-primary' %>
+<% end %>

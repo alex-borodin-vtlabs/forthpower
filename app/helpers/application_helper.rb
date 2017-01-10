@@ -11,7 +11,7 @@ module ApplicationHelper
 
   def gravatar_for(user, opts = {})
     opts[:alt] = user.name
-    src = if user.avatar_url
+    src = if user.avatar_url?
       user.avatar_url
     else
       "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email)}?s=#{opts.delete(:size) { 50 }}"
@@ -41,5 +41,9 @@ module ApplicationHelper
      content_tag(:li, class: "nav-item #{class_name}") do
        link_to link_text, link_path, class: "nav-link"
      end
+   end
+
+   def preview_user_text(user)
+     strip_tags(user.bio.to_s).truncate(100)
    end
 end

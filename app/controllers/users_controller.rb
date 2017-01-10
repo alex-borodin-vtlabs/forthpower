@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update]
+  before_action only: [:edit, :update] { |c| c.admin_or_current @user, 3 }
+  before_action only: [:update] { |c| c.check_param_access user_params[:role], 3}
   def index
     @users =
       if params[:search]
@@ -9,17 +12,27 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.includes(:chat_rooms).find_by(id: params[:id])
+
   end
 
   def edit
   end
 
   def update
+    if @user.update_attributes(user_params)
+      flash[:success] = 'User saved!'
+      redirect_to users_path
+    else
+      render 'new'
+    end
   end
 
   private
-    def chat_room_params
-      params.require(:user).permit(:search, :role)
+    def set_user
+      @user = User.includes(:chat_rooms).find_by(id: params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:search, :role, :bio, :avatar_url)
     end
 end
