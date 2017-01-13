@@ -85,7 +85,7 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ['https://action-cable-example.herokuapp.com', 'http://action-cable-example.herokuapp.com']
 
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -97,10 +97,14 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
 }
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  ENV['OAUTH_REDIRECT'] = "https://forthpower.herokuapp.com"
+  config.action_mailer.default_url_options = {
+    :host => ENV['OAUTH_REDIRECT'],
+    :protocol => 'https'
+}
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  ENV['OAUTH_REDIRECT'] = "https://forthpower.herokuapp.com/"
+
 end
