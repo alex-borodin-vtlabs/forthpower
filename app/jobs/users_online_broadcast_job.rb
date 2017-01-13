@@ -9,6 +9,6 @@ class UsersOnlineBroadcastJob < ApplicationJob
   private
 
   def render_user(user)
-    UsersController.render partial: 'shared/user_avatar_container', locals: {user: user}
+    UsersController.render partial: 'shared/user_avatar', locals: {user: user}
   end
 end

@@ -4,6 +4,11 @@
 .user-avatar {
   position: relative;
   display: inline-block;
+  img {
+    max-height: 50px;
+    max-width: 50px;
+    display: inline-block;
+  }
   .fa-circle {
     position: absolute;
     bottom: 5px;
