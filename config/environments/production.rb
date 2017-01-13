@@ -102,5 +102,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  ENV['OAUTH_REDIRECT'] = "http://localhost:3000"
+  ENV['OAUTH_REDIRECT'] = "https://forthpower.herokuapp.com/"
 end
