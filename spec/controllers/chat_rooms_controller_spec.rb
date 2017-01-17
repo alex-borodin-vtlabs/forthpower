@@ -24,22 +24,17 @@ RSpec.describe ChatRoomsController, type: :controller do
   # ChatRoom. As you add validations to ChatRoom, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:valid_chat_room)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    attributes_for(:invalid_chat_room)
   }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ChatRoomsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
 
   describe "GET #index" do
     it "assigns all chat_rooms as @chat_rooms" do
       chat_room = ChatRoom.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       expect(assigns(:chat_rooms)).to eq([chat_room])
     end
   end
@@ -47,113 +42,80 @@ RSpec.describe ChatRoomsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested chat_room as @chat_room" do
       chat_room = ChatRoom.create! valid_attributes
-      get :show, params: {id: chat_room.to_param}, session: valid_session
+      get :show, params: {id: chat_room.to_param}
       expect(assigns(:chat_room)).to eq(chat_room)
     end
   end
 
   describe "GET #new" do
-    it "assigns a new chat_room as @chat_room" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:chat_room)).to be_a_new(ChatRoom)
+    context 'author' do
+      login_user_with_role(:author_user)
+      it "assigns a new chat_room as @chat_room" do
+        get :new
+        expect(assigns(:chat_room)).to be_a_new(ChatRoom)
+      end
     end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested chat_room as @chat_room" do
-      chat_room = ChatRoom.create! valid_attributes
-      get :edit, params: {id: chat_room.to_param}, session: valid_session
-      expect(assigns(:chat_room)).to eq(chat_room)
+    context 'user' do
+      login_user_with_role(:user)
+      it "should route to root" do
+        get :new
+        expect(response).to redirect_to(root_path)
+      end
+    end
+    context 'not logged in' do
+      it "should route to sign in" do
+        get :new
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
   end
 
   describe "POST #create" do
-    context "with valid params" do
-      it "creates a new ChatRoom" do
-        expect {
-          post :create, params: {chat_room: valid_attributes}, session: valid_session
-        }.to change(ChatRoom, :count).by(1)
+    context 'author' do
+      login_user_with_role(:author_user)
+      context "with valid params" do
+        it "creates a new ChatRoom" do
+          expect {
+            post :create, params: {chat_room: valid_attributes}
+          }.to change(ChatRoom, :count).by(1)
+        end
+
+        it "assigns a newly created chat_room as @chat_room" do
+          post :create, params: {chat_room: valid_attributes}
+          expect(assigns(:chat_room)).to be_a(ChatRoom)
+          expect(assigns(:chat_room)).to be_persisted
+        end
+
+        it "redirects to the created chat_room" do
+          post :create, params: {chat_room: valid_attributes}
+          expect(response).to redirect_to(ChatRoom.last)
+        end
       end
 
-      it "assigns a newly created chat_room as @chat_room" do
-        post :create, params: {chat_room: valid_attributes}, session: valid_session
-        expect(assigns(:chat_room)).to be_a(ChatRoom)
-        expect(assigns(:chat_room)).to be_persisted
-      end
+      context "with invalid params" do
+        it "assigns a newly created but unsaved chat_room as @chat_room" do
+          post :create, params: {chat_room: invalid_attributes}
+          expect(assigns(:chat_room)).to be_a_new(ChatRoom)
+        end
 
-      it "redirects to the created chat_room" do
-        post :create, params: {chat_room: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(ChatRoom.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved chat_room as @chat_room" do
-        post :create, params: {chat_room: invalid_attributes}, session: valid_session
-        expect(assigns(:chat_room)).to be_a_new(ChatRoom)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, params: {chat_room: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested chat_room" do
-        chat_room = ChatRoom.create! valid_attributes
-        put :update, params: {id: chat_room.to_param, chat_room: new_attributes}, session: valid_session
-        chat_room.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested chat_room as @chat_room" do
-        chat_room = ChatRoom.create! valid_attributes
-        put :update, params: {id: chat_room.to_param, chat_room: valid_attributes}, session: valid_session
-        expect(assigns(:chat_room)).to eq(chat_room)
-      end
-
-      it "redirects to the chat_room" do
-        chat_room = ChatRoom.create! valid_attributes
-        put :update, params: {id: chat_room.to_param, chat_room: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(chat_room)
+        it "re-renders the 'new' template" do
+          post :create, params: {chat_room: invalid_attributes}
+          expect(response).to render_template("new")
+        end
       end
     end
-
-    context "with invalid params" do
-      it "assigns the chat_room as @chat_room" do
-        chat_room = ChatRoom.create! valid_attributes
-        put :update, params: {id: chat_room.to_param, chat_room: invalid_attributes}, session: valid_session
-        expect(assigns(:chat_room)).to eq(chat_room)
+    context 'user' do
+      login_user_with_role(:user)
+      it "should route to root" do
+        get :new
+        expect(response).to redirect_to(root_path)
       end
-
-      it "re-renders the 'edit' template" do
-        chat_room = ChatRoom.create! valid_attributes
-        put :update, params: {id: chat_room.to_param, chat_room: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+    end
+    context 'not logged in' do
+      it "should route to sign in" do
+        get :new
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested chat_room" do
-      chat_room = ChatRoom.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: chat_room.to_param}, session: valid_session
-      }.to change(ChatRoom, :count).by(-1)
-    end
-
-    it "redirects to the chat_rooms list" do
-      chat_room = ChatRoom.create! valid_attributes
-      delete :destroy, params: {id: chat_room.to_param}, session: valid_session
-      expect(response).to redirect_to(chat_rooms_url)
-    end
-  end
-
 end

@@ -15,24 +15,8 @@ RSpec.describe ChatRoomsController, type: :routing do
       expect(:get => "/chat_rooms/1").to route_to("chat_rooms#show", :id => "1")
     end
 
-    it "routes to #edit" do
-      expect(:get => "/chat_rooms/1/edit").to route_to("chat_rooms#edit", :id => "1")
-    end
-
     it "routes to #create" do
       expect(:post => "/chat_rooms").to route_to("chat_rooms#create")
-    end
-
-    it "routes to #update via PUT" do
-      expect(:put => "/chat_rooms/1").to route_to("chat_rooms#update", :id => "1")
-    end
-
-    it "routes to #update via PATCH" do
-      expect(:patch => "/chat_rooms/1").to route_to("chat_rooms#update", :id => "1")
-    end
-
-    it "routes to #destroy" do
-      expect(:delete => "/chat_rooms/1").to route_to("chat_rooms#destroy", :id => "1")
     end
 
   end
