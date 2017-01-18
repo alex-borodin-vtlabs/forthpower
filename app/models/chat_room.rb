@@ -1,5 +1,6 @@
 class ChatRoom < ApplicationRecord
   belongs_to :user
+  validates_presence_of :user
   has_many :messages, dependent: :destroy
   validates :title, presence: true, length: {minimum: 2, maximum: 1000}
   acts_as_votable
@@ -10,7 +11,6 @@ class ChatRoom < ApplicationRecord
   end
 
   def self.search(search)
-    where("title LIKE ?", "%#{search}%")
-    where("post LIKE ?", "%#{search}%")
+    where("(title LIKE ?) OR (post LIKE ?)", "%#{search}%", "%#{search}%")
   end
 end

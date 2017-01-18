@@ -11,5 +11,12 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ChatRoomsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "should return image" do
+    chat_room = FactoryGirl.create(:valid_chat_room, post: "dsfsdfsdf <img src=\"/pic.jpg\">")
+    expect(preview_image(chat_room)).to eq("<img src=\"/pic.jpg\" class=\"card-img-top\" style=\"max-width:100%\">")
+  end
+  it "should return image" do
+    chat_room = FactoryGirl.create(:valid_chat_room, post: "<p>dsfsdfsdf <img src=\"/pic.jpg\"> rfferf erferfe erferfer erferf erferferf erferfer rtgtgtyhyu i7ujh5gt4 wedwedwed 76hyt erfer tyhtyhtyh erferferfe tyhtyhtyhtyh rtgrtgrtgrtg hyujujyujyujyujy rtgrtgrtgrt</p>")
+    expect(preview_text(chat_room)).to eq("dsfsdfsdf  rfferf erferfe erferfer erferf erferferf erferfer rtgtgtyhyu i7ujh5gt4 wedwedwed 76hyt erfer tyhtyhtyh erferferfe tyhtyhtyhtyh rtgrtgrtgrtg hyujujyujyujyujy rtgrtgrtgrt")
+  end
 end

@@ -33,7 +33,7 @@ RSpec.describe ChatRoomsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all chat_rooms as @chat_rooms" do
-      chat_room = ChatRoom.create! valid_attributes
+      chat_room = FactoryGirl.create(:valid_chat_room)
       get :index, params: {}
       expect(assigns(:chat_rooms)).to eq([chat_room])
     end
@@ -41,7 +41,7 @@ RSpec.describe ChatRoomsController, type: :controller do
 
   describe "GET #show" do
     it "assigns the requested chat_room as @chat_room" do
-      chat_room = ChatRoom.create! valid_attributes
+      chat_room = FactoryGirl.create(:valid_chat_room)
       get :show, params: {id: chat_room.to_param}
       expect(assigns(:chat_room)).to eq(chat_room)
     end

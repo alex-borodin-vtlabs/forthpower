@@ -20,54 +20,6 @@ require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Attachment. As you add validations to Attachment, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # AttachmentsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Attachment" do
-        expect {
-          post :create, params: {attachment: valid_attributes}, session: valid_session
-        }.to change(Attachment, :count).by(1)
-      end
-
-      it "assigns a newly created attachment as @attachment" do
-        post :create, params: {attachment: valid_attributes}, session: valid_session
-        expect(assigns(:attachment)).to be_a(Attachment)
-        expect(assigns(:attachment)).to be_persisted
-      end
-
-      it "redirects to the created attachment" do
-        post :create, params: {attachment: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Attachment.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved attachment as @attachment" do
-        post :create, params: {attachment: invalid_attributes}, session: valid_session
-        expect(assigns(:attachment)).to be_a_new(Attachment)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, params: {attachment: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
 
 end
