@@ -2,9 +2,60 @@ require 'rails_helper'
 
 RSpec.describe "ChatRooms", type: :request do
   describe "GET /chat_rooms" do
-    it "works! (now write some real specs)" do
+    it "works!" do
       get chat_rooms_path
       expect(response).to have_http_status(200)
+    end
+  end
+  describe "GET /chat_rooms/1" do
+    it "works!" do
+      chat_room = FactoryGirl.create(:valid_chat_room)
+      get chat_room_path(chat_room)
+      expect(response).to have_http_status(200)
+    end
+  end
+  describe "GET /chat_rooms/new" do
+    it "redirects to login" do
+      get new_chat_room_path
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
+  context "logged user" do
+    describe "GET /chat_rooms/new" do
+      it "redirects to root" do
+        user = FactoryGirl.create(:user)
+        sign_in(user)
+        get new_chat_room_path
+        expect(response).to redirect_to(root_path)
+      end
+    end
+    describe "POST /chat_rooms/" do
+      it "redirects to root" do
+        user = FactoryGirl.create(:user)
+        sign_in(user)
+        post chat_rooms_path, params: {chat_room: attributes_for(:valid_chat_room)}
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+  context "logged author" do
+    describe "GET /chat_rooms/new" do
+      it "renders to new" do
+        user = FactoryGirl.create(:author_user)
+        sign_in(user)
+        get chat_rooms_path
+        expect(response).to have_http_status(200)
+      end
+    end
+    describe "POST /chat_rooms/" do
+      it "redirects to show" do
+        user = FactoryGirl.create(:author_user)
+        sign_in(user)
+        post chat_rooms_path, params: {chat_room: attributes_for(:valid_chat_room)}
+        expect(response).to redirect_to(assigns(:chat_room))
+        follow_redirect!
+        expect(response).to render_template(:show)
+      end
     end
   end
 end
