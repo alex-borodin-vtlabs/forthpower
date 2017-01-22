@@ -53,6 +53,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'vcr'
   gem 'shoulda'
+  gem "jasmine"
 end
 
 group :test do
