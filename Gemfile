@@ -54,10 +54,12 @@ group :development, :test do
   gem 'vcr'
   gem 'shoulda'
   gem "jasmine"
+  gem 'selenium-webdriver'
 end
 
 group :test do
   gem 'webmock'
+  gem 'database_cleaner'
 end
 
 group :development do
