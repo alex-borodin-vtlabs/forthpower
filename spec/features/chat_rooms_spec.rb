@@ -20,9 +20,17 @@ feature "Chat Room" do
     end
   end
   scenario "Like", :js => true do
-    within(".votes-container") do
       page.find('a[data-vote="like"]').click
       expect(page).to have_content '1'
-    end
+      expect(page).to have_css('.votes-container[data-voted="like"]')
+      page.find('a[data-vote="bad"]').click
+      expect(page).to have_content '0'
+      expect(page).to have_css(".votes-container[data-voted='none']")
+      page.find('a[data-vote="bad"]').click
+      expect(page).to have_content '-1'
+      expect(page).to have_css(".votes-container[data-voted='bad']")
+      page.find('a[data-vote="bad"]').click
+      expect(page).to have_content '0'
+      expect(page).to have_css(".votes-container[data-voted='none']")
   end
 end

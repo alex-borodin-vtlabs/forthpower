@@ -75,7 +75,10 @@ feature "Articles" do
     end
   end
   scenario "Like", :js => true do
+    expect(page).to have_css(".votes-container[data-chat-room-id='#{@chat_room2.id}']")
+    expect(page).to have_css(".votes-container[data-chat-room-id='#{@chat_room1.id}']")
     within(".votes-container[data-chat-room-id=\"#{@chat_room2.id}\"]") do
+
       page.find('a[data-vote="like"]').click
       expect(page).to have_content '1'
     end

@@ -12,8 +12,10 @@ module ChatRoomsHelper
     img.to_s.html_safe
   end
 
-  def hide_vote(chat_room, user)
-    return true unless user
-    user.voted_for? chat_room
+  def check_vote(chat_room, user)
+    return 'hide' unless user
+    return 'like' if user.liked? chat_room
+    return 'bad' if user.disliked? chat_room
+    'none'
   end
 end

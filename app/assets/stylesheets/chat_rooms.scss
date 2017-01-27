@@ -4,3 +4,15 @@
 .post-editor {
   //min-height: 400px;
 }
+.votes-container {
+  &[data-voted='like'] {
+    a[data-vote='like'] {
+      font-size: 1.5em;
+    }
+  }
+  &[data-voted='bad'] {
+    a[data-vote='bad'] {
+      font-size: 1.5em;
+    }
+  }
+}

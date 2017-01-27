@@ -10,7 +10,7 @@
     <div class="col-md-10">
       <p class="card-text">
         <span class="text-muted"><%= link_to @chat_room.user.name, user_path(@chat_room.user) %> at <%= @chat_room.timestamp %></span><br>
-        <div class="votes-container" data-voted="<%= hide_vote(@chat_room, current_user) %>" data-chat-room-id="<%= @chat_room.id %>"><%= render partial: 'shared/votes', locals: {chat_room: @chat_room} %></div>
+        <div class="votes-container" data-voted="<%= check_vote(@chat_room, current_user) %>" data-chat-room-id="<%= @chat_room.id %>"><%= render partial: 'shared/votes', locals: {chat_room: @chat_room} %></div>
       </p>
     </div>
   </div>

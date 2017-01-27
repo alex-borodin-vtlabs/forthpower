@@ -2,11 +2,17 @@ jQuery(document).on 'turbolinks:load', ->
   messages = $('#messages')
   chat_rooms = $('#chat-rooms')
   votes_container = $('.votes-container')
-  hide_vote = ->
+
+  detect_vote = ($this_votes_container, $this) ->
+    return true unless $this_votes_container.attr('data-voted') is 'none'
+    return true if $this_votes_container.attr('data-voted') is $this.data('vote')
+
+  update_vote = ->
     $('.votes-container').each ->
-      if $(this).data('voted') is true
+      if $(this).data('voted') is 'hide'
         $(this).find('a').hide()
-  hide_vote()
+
+  update_vote()
   if messages.length > 0
     messages_to_bottom = -> messages.parents('.yeld-container').scrollTop(messages.prop("scrollHeight"))
 
@@ -67,9 +73,8 @@ jQuery(document).on 'turbolinks:load', ->
           # Called when the subscription has been terminated by the server
 
         received: (data) ->
-          vote_container.data('voted', true)
           vote_container.html data['vote']
-          hide_vote()
+          update_vote()
 
         send_message: (vote, chat_room_id) ->
           @perform 'send_message', vote: vote, chat_room_id: chat_room_id
@@ -77,7 +82,14 @@ jQuery(document).on 'turbolinks:load', ->
 
     votes_container.on 'click', 'a', (e) ->
       $this = $(this)
-      chat_room_id = $this.parents('.votes-container').data('chat-room-id')
+      $this_votes_container = $this.parents('.votes-container')
+      chat_room_id = $this_votes_container.data('chat-room-id')
+      console.log $this_votes_container.attr('data-voted')
+      console.log $this.data('vote')
+      if detect_vote($this_votes_container, $this)
+        $this_votes_container.attr('data-voted', 'none')
+      else
+        $this_votes_container.attr('data-voted', $this.data('vote'))
       App.votes[chat_room_id].send_message $this.data('vote'), chat_room_id
       e.preventDefault()
       return false
