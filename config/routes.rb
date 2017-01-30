@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :attachments
-  resources :chat_rooms, only: [:new, :create, :show, :index]
+  resources :chat_rooms, only: [:new, :create, :show, :index, :edit, :update]
   resources :attachments, only: [:create]
   root 'chat_rooms#index'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations' }

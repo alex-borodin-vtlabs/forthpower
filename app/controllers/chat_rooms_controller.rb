@@ -1,5 +1,7 @@
 class ChatRoomsController < ApplicationController
-  before_action only: [:new, :create] { |c| c.admin_auth 1 }
+  before_action only: [:new, :create, :update, :edit] { |c| c.admin_auth 1 }
+  before_action :set_chat_room, only: [:edit, :update]
+  before_action :check_author, only: [:edit, :update]
   def index
     @chat_rooms =
       if params[:search]
@@ -28,9 +30,31 @@ class ChatRoomsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @chat_room.update_attributes(chat_room_params)
+      flash[:success] = 'Post saved!'
+      redirect_to @chat_room
+    else
+      flash[:error] = 'Post not saved!'
+      render 'edit'
+    end
+  end
+
   private
+  def set_chat_room
+    @chat_room = ChatRoom.includes(:user).find_by(id: params[:id])
+  end
 
   def chat_room_params
     params.require(:chat_room).permit(:title, :post, :search)
+  end
+
+  def check_author
+    if current_user != @chat_room.user
+      redirect_to root_path
+    end
   end
 end

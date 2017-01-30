@@ -1,4 +1,7 @@
 <h1><%= @chat_room.title %></h1>
+<% if current_user && current_user == @chat_room.user %>
+  <p class="lead"><%= link_to 'Edit article', edit_chat_room_path(@chat_room), class: 'btn btn-primary' %></p>
+<% end %>
 <div class="card-block">
   <div class="post-body">
     <%= @chat_room.post.to_s.html_safe %>
