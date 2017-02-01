@@ -2,17 +2,18 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
   before_action only: [:edit, :update] { |c| c.admin_or_current @user, 3 }
   before_action only: [:update] { |c| c.check_param_access user_params[:role], 3}
+
   def index
     @users =
       if params[:search]
-        User.search(params[:search]).order('created_at DESC')
+        User.search(params[:search]).order('created_at DESC').page(1).per(5).padding(params[:padding])
       else
-        User.all.order('created_at DESC')
+        User.all.order('created_at DESC').page(params[:page]).page(1).per(5).padding(params[:padding])
       end
+      respond_to :html, :js
   end
 
   def show
-
   end
 
   def edit
@@ -34,6 +35,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:search, :role, :bio, :avatar_url)
+      params.require(:user).permit(:search, :role, :bio, :avatar_url, :padding)
     end
 end

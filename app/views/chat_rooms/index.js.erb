@@ -1,0 +1,5 @@
+<% if @chat_rooms.count > 0 %>
+  $('#chat-rooms').append('<%=j render @chat_rooms %>')
+<% else %>
+  $('.preloader').remove()
+<% end %>

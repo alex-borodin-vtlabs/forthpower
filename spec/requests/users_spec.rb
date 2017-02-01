@@ -6,11 +6,16 @@ RSpec.describe "Users", type: :request do
       get users_path
       expect(response).to have_http_status(200)
     end
+    it "should render js" do
+      get users_path, xhr: true
+      expect(response.content_type).to eq(Mime[:js])
+      expect(response).to have_http_status(200)
+    end
   end
   describe "GET /users/1" do
     it "works!" do
       user = FactoryGirl.create(:user)
-      get users_path(user)
+      get user_path(user)
       expect(response).to have_http_status(200)
     end
   end

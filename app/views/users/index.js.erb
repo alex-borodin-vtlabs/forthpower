@@ -1,0 +1,5 @@
+<% if @users.count > 0 %>
+  $('#users').append('<%=j render @users %>')
+<% else %>
+  $('.preloader').remove()
+<% end %>

@@ -36,6 +36,7 @@ gem 'redis', '~> 3.2'
 gem 'wysiwyg-rails'
 gem 'carrierwave', '~> 1.0'
 gem 'acts_as_votable', '~> 0.10.0'
+gem 'kaminari'
 
 
 # Use Capistrano for deployment

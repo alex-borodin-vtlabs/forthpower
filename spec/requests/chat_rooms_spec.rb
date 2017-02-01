@@ -6,6 +6,11 @@ RSpec.describe "ChatRooms", type: :request do
       get chat_rooms_path
       expect(response).to have_http_status(200)
     end
+    it "should render js" do
+      get chat_rooms_path, xhr: true
+      expect(response.content_type).to eq(Mime[:js])
+      expect(response).to have_http_status(200)
+    end
   end
   describe "GET /chat_rooms/1" do
     it "works!" do

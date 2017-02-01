@@ -5,10 +5,11 @@ class ChatRoomsController < ApplicationController
   def index
     @chat_rooms =
       if params[:search]
-        ChatRoom.includes(:user).search(params[:search]).order('created_at DESC')
+        ChatRoom.includes(:user).search(params[:search]).order('created_at DESC').page(1).per(5).padding(params[:padding])
       else
-        ChatRoom.includes(:user).all.order('created_at DESC')
+        ChatRoom.includes(:user).all.order('created_at DESC').page(1).per(5).padding(params[:padding])
       end
+      respond_to :html, :js
   end
 
   def new
@@ -49,7 +50,7 @@ class ChatRoomsController < ApplicationController
   end
 
   def chat_room_params
-    params.require(:chat_room).permit(:title, :post, :search)
+    params.require(:chat_room).permit(:title, :post, :search, :padding)
   end
 
   def check_author
