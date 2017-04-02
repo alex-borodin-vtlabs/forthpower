@@ -16,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def self.find_for_facebook_oauth access_token
-    if user = User.where(url: access_token.info.email).first
+    if user = User.where(email: access_token.info.email).first
       user.avatar_url = access_token.info.image
       user.save!
       user
